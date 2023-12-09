@@ -9,13 +9,13 @@ export const action = async ({ request }) => {
     // Implementa tu lógica de cálculo aquí
     // Por ejemplo, usando un mapeo simple de código postal a tarifa
     const tarifasPorZona = {
-        'LOSOLIVOS': 15.00, // Nueva York
-        'SANLUIS': 8.00,
-        'MAGDALENA':10.00,
-       'SANTAANITA':10.00
+        'LOSOLIVOS': 150, // Nueva York
+        'SANLUIS': 80,
+        'MAGDALENA':100,
+       'SANTAANITA':100
     };
 
-    const precioEnvio = tarifasPorZona[destination.postal_code] || 15.00; // Tarifa por defecto
+    const precioEnvio = tarifasPorZona[destination.postal_code] || 150; // Tarifa por defecto
 
     const shippingRate = {
         service_name: "Envios a distritos de Lima",
