@@ -25,7 +25,7 @@ export const action = async ({ request }) => {
     "CHICLAYO": 2000,
     "HUANCAYO": 2000,
     "ICA": 2000,
-    "PUNO": 2000,
+    "PUNO": 4000,
     };
 
     // Determina la tarifa basada en la zona
