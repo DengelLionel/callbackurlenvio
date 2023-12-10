@@ -1,31 +1,44 @@
-// En tu archivo routes/shipping-rate.js
-
 import { json } from '@remix-run/node';
 
 export const action = async ({ request }) => {
     const body = await request.json();
-    const { destination } = body.rate; // Extrae la información del destino del pedido
+    const { destination } = body.rate;
 
-    // Implementa tu lógica de cálculo aquí
-    // Por ejemplo, usando un mapeo simple de código postal a tarifa
-    const tarifasPorZona = {
-        'LOSOLIVOS': 1500, // Nueva York
-        'SANLUIS': 800,
-        'MAGDALENA':1000,
-       'SANTAANITA':1000
+    // Define las zonas de Lima y sus tarifas
+    const zonasLima = {
+        "LOSOLIVOS": 1000,
+        "SANLUIS": 1000,
+        "MAGDALENA": 1000,
+        "MIRAFLORES": 1000,
+        "SURCO": 1000,
+        "SANISIDRO": 1000,
+        "LAMOLINA": 1000,
+        "BARRANCO": 1000,
     };
 
-    const precioEnvio = tarifasPorZona[destination.postal_code] || 150; // Tarifa por defecto
+    // Define las zonas de provincias y sus tarifas
+    const zonasProvincias = {
+    "AREQUIPA": 2000,
+    "CUSCO": 2000,
+    "TRUJILLO": 2000, 
+    "PIURA": 2000,
+    "CHICLAYO": 2000,
+    "HUANCAYO": 2000,
+    "ICA": 2000,
+    "PUNO": 2000,
+    };
+
+    // Determina la tarifa basada en la zona
+    let precioEnvio = zonasLima[destination.postal_code] || zonasProvincias[destination.postal_code] || 2000; // Tarifa por defecto para zonas no especificadas
 
     const shippingRate = {
-        service_name: "Envios a distritos de Lima",
-        service_code: "Distritos_de_lima",
-        total_price: precioEnvio.toString(), // Convertir a string para la respuesta
+        service_name: precioEnvio === 2000 ? "Envios a Provincias" : "Envios a Lima",
+        service_code: precioEnvio === 2000 ? "Provincias" : "Lima",
+        total_price: precioEnvio.toString(),
         currency: "PEN",
         min_delivery_date: new Date().toISOString(),
         max_delivery_date: new Date().toISOString()
     };
 
-    // Responder a Shopify con la tarifa de envío
     return json({ rates: [shippingRate] });
 };
